@@ -1,3 +1,8 @@
+## Katrina 30km
+![30km](https://github.com/DixitPatel/WRF_Simulation/blob/master/results/katrina30km_cmp.png)
+![30km](https://github.com/DixitPatel/WRF_Simulation/blob/master/results/katrina30km_cmp_log.png)
+
+
 ## Katrina 1km : Intel+MPT2.18
 
 ![kat](https://github.com/DixitPatel/WRF_Simulation/blob/master/results/katrina1km.png)

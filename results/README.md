@@ -1,5 +1,10 @@
 
 
+# WRFV4.0
+## Hybrid Run Summary
+![sim_speed](https://github.com/DixitPatel/WRF_Simulation/blob/master/results/Hybrid_sim_speed.png)
+![comp_time](https://github.com/DixitPatel/WRF_Simulation/blob/master/results/Hybrid_comp_time.png)
+
 # WRF 3.9.1
 
 ## Scalability Test Summary

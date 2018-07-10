@@ -2,6 +2,17 @@
 
 # WRFV4.0
 ## Hybrid Run Summary
+
+#### Compiler Option : 67
+**Flags** : -xHost -fp-model fast=2 -no-heap-arrays -no-prec-div -no-prec-sqrt -fno-common -xCORE-AVX2
+**xHost** : Tells the compiler to generate instructions for the highest instruction set available on the compilation host processor.
+**fp-model fast = 2** : Controls the semantics of floating-point calculations. Enables more aggressive optimizations on floating-point data.
+**-no-heap-arrays**  :  The compiler puts automatic arrays and temporary arrays in the stack storage area.
+**no-prec-div** :  Improves precision of floating-point divides.  (No) : it enables optimizations that give slightly less precise results than full IEEE division.
+**no-prec-sqrt** :  The compiler uses a faster but less precise implementation of square root.
+**no-common** : Option -fno-common tells the compiler to treat common symbols as global definitions. When using this option, you can only have a common variable declared in one module; otherwise, a link time error will occur for multiple defined symbols.
+**CORE-AVX2** :  expansion of most vector integer SSE and AVX instructions to 256 bits. ![NASA](https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html)
+
 ![sim_speed](https://github.com/DixitPatel/WRF_Simulation/blob/master/results/Hybrid_sim_speed.png)
 ![comp_time](https://github.com/DixitPatel/WRF_Simulation/blob/master/results/Hybrid_comp_time.png)
 

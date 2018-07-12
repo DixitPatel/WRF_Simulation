@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>WRF Benchmarks &mdash; WRF Benchmarks 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> WRF Benchmarks
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">WRF Benchmarks</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#hybrid-runs">Hybrid Runs</a><ul>
+<li><a class="reference internal" href="#summary-wrf-v-4">Summary : WRF V.4</a></li>
+<li><a class="reference internal" href="#compiler-option-67">Compiler Option 67</a></li>
+<li><a class="reference internal" href="#other-hybrid-runs">Other Hybrid Runs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scalability-runs">Scalability Runs</a><ul>
+<li><a class="reference internal" href="#wrf-v3-9">WRF v3.9</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">WRF Benchmarks</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>WRF Benchmarks</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="wrf-benchmarks">
+<h1>WRF Benchmarks<a class="headerlink" href="#wrf-benchmarks" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+<div class="section" id="hybrid-runs">
+<h1>Hybrid Runs<a class="headerlink" href="#hybrid-runs" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary-wrf-v-4">
+<h2>Summary : WRF V.4<a class="headerlink" href="#summary-wrf-v-4" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="../../../results/Intel17_16vs67.png"><img alt="../../../results/Intel17_16vs67.png" src="../../../results/Intel17_16vs67.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../../../results/intel18_openmp_67_speed.png"><img alt="../../../results/intel18_openmp_67_speed.png" src="../../../results/intel18_openmp_67_speed.png" style="width: 400px;" /></a>
+</div>
+<div class="section" id="compiler-option-67">
+<h2>Compiler Option 67<a class="headerlink" href="#compiler-option-67" title="Permalink to this headline">¶</a></h2>
+<p><strong>Flags</strong> : -xHost -fp-model fast=2 -no-heap-arrays -no-prec-div -no-prec-sqrt -fno-common -xCORE-AVX2</p>
+<p><strong>xHost</strong> : Tells the compiler to generate instructions for the highest instruction set available on the compilation host processor.</p>
+<p><strong>fp-model fast = 2</strong> : Controls the semantics of floating-point calculations. Enables more aggressive optimizations on floating-point data.</p>
+<p><strong>-no-heap-arrays</strong>  :  The compiler puts automatic arrays and temporary arrays in the stack storage area.</p>
+<p><strong>no-prec-div</strong> :  Improves precision of floating-point divides.  (No) : it enables optimizations that give slightly less precise results than full IEEE division.</p>
+<p><strong>no-prec-sqrt</strong> :  The compiler uses a faster but less precise implementation of square root.</p>
+<p><strong>no-common</strong> : Option -fno-common tells the compiler to treat common symbols as global definitions. When using this option, you can only have a common variable declared in one module; otherwise, a link time error will occur for multiple defined symbols.</p>
+<p><strong>CORE-AVX2</strong> :  expansion of most vector integer SSE and AVX instructions to 256 bits. NASA : <a class="reference external" href="https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html">https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html</a> &lt;br&gt;</p>
+</div>
+<div class="section" id="other-hybrid-runs">
+<h2>Other Hybrid Runs<a class="headerlink" href="#other-hybrid-runs" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="../../../results/intel18_openmp_67_comp.png"><img alt="../../../results/intel18_openmp_67_comp.png" src="../../../results/intel18_openmp_67_comp.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../../../results/intel17_openmp_16_comp.png"><img alt="../../../results/intel17_openmp_16_comp.png" src="../../../results/intel17_openmp_16_comp.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../../../results/intel17_openmp_16_speed.png"><img alt="../../../results/intel17_openmp_16_speed.png" src="../../../results/intel17_openmp_16_speed.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../../../results/intel17_openmp_67_comp.png"><img alt="../../../results/intel17_openmp_67_comp.png" src="../../../results/intel17_openmp_67_comp.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../../../results/intel17_openmp_67_speed.png"><img alt="../../../results/intel17_openmp_67_speed.png" src="../../../results/intel17_openmp_67_speed.png" style="width: 400px;" /></a>
+</div>
+</div>
+<div class="section" id="scalability-runs">
+<h1>Scalability Runs<a class="headerlink" href="#scalability-runs" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="wrf-v3-9">
+<h2>WRF v3.9<a class="headerlink" href="#wrf-v3-9" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="../../../results/Scalability_Speed.png"><img alt="../../../results/Scalability_Speed.png" src="../../../results/Scalability_Speed.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../../../results/Scalability_ComputationTime.png"><img alt="../../../results/Scalability_ComputationTime.png" src="../../../results/Scalability_ComputationTime.png" style="width: 400px;" /></a>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dixit Patel.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

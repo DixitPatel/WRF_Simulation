@@ -12,14 +12,6 @@ WRF Benchmarks
 
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-
 Hybrid Runs
 ==================
 
@@ -27,10 +19,10 @@ Hybrid Runs
 Summary : WRF V.4
 -------------------
 
-.. image:: ../../../results/Intel17_16vs67.png
+.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Intel17_16vs67.png
     :width: 400px
 
-.. image:: ../../../results/intel18_openmp_67_speed.png
+.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_speed.png
     :width: 400px
 
 
@@ -55,18 +47,18 @@ Compiler Option 67
 
 Other Hybrid Runs
 -------------------
-.. image:: ../../../results/intel18_openmp_67_comp.png
+.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_comp.png
     :width: 400px
-.. image:: ../../../results/intel17_openmp_16_comp.png
-    :width: 400px
-
-.. image:: ../../../results/intel17_openmp_16_speed.png
+.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_comp.png
     :width: 400px
 
-.. image:: ../../../results/intel17_openmp_67_comp.png
+.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_speed.png
     :width: 400px
 
-.. image:: ../../../results/intel17_openmp_67_speed.png
+.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png
+    :width: 400px
+
+.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png
     :width: 400px
 
 
@@ -76,10 +68,10 @@ Scalability Runs
 
 WRF v3.9
 -------------------
-.. image:: ../../../results/Scalability_Speed.png
+.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Scalability_Speed.png
     :width: 400px
 
-.. image:: ../../../results/Scalability_ComputationTime.png
+.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Scalability_ComputationTime.png
     :width: 400px
 
 

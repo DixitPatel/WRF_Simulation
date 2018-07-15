@@ -2,7 +2,7 @@
 
 # WRFV4.0
 ## Hybrid Run Summary
-
+Hybrid runs take the advantage over   
 #### Compiler Option : 67
 **Flags** : -xHost -fp-model fast=2 -no-heap-arrays -no-prec-div -no-prec-sqrt -fno-common -xCORE-AVX2<br>
 **xHost** : Tells the compiler to generate instructions for the highest instruction set available on the compilation host processor.<br>

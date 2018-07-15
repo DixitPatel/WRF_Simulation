@@ -78,15 +78,13 @@
             
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">WRF Benchmarks</a></li>
-<li><a class="reference internal" href="#hybrid-runs">Hybrid Runs</a><ul>
+<li><a class="reference internal" href="#">WRF Benchmarks</a><ul>
+<li><a class="reference internal" href="#scaling-results">Scaling Results</a></li>
+<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+<li><a class="reference internal" href="#hybrid-runs">Hybrid Runs</a></li>
 <li><a class="reference internal" href="#summary-wrf-v-4">Summary : WRF V.4</a></li>
-<li><a class="reference internal" href="#compiler-option-67">Compiler Option 67</a></li>
+<li><a class="reference internal" href="#compiler-option-67-flags">Compiler Option 67 flags</a></li>
 <li><a class="reference internal" href="#other-hybrid-runs">Other Hybrid Runs</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scalability-runs">Scalability Runs</a><ul>
-<li><a class="reference internal" href="#wrf-v3-9">WRF v3.9</a></li>
 </ul>
 </li>
 </ul>
@@ -154,19 +152,82 @@
            <div itemprop="articleBody">
             
   <div class="section" id="wrf-benchmarks">
-<h1>WRF Benchmarks<a class="headerlink" href="#wrf-benchmarks" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+<h1><a class="toc-backref" href="#id1">WRF Benchmarks</a><a class="headerlink" href="#wrf-benchmarks" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#wrf-benchmarks" id="id1">WRF Benchmarks</a><ul>
+<li><a class="reference internal" href="#scaling-results" id="id2">Scaling Results</a></li>
+<li><a class="reference internal" href="#conclusion" id="id3">Conclusion</a></li>
+<li><a class="reference internal" href="#hybrid-runs" id="id4">Hybrid Runs</a></li>
+<li><a class="reference internal" href="#summary-wrf-v-4" id="id5">Summary : WRF V.4</a></li>
+<li><a class="reference internal" href="#compiler-option-67-flags" id="id6">Compiler Option 67 flags</a></li>
+<li><a class="reference internal" href="#other-hybrid-runs" id="id7">Other Hybrid Runs</a></li>
+</ul>
+</li>
+</ul>
 </div>
+<div class="section" id="scaling-results">
+<h2><a class="toc-backref" href="#id2">Scaling Results</a><a class="headerlink" href="#scaling-results" title="Permalink to this headline">¶</a></h2>
+<p>Below graph shows the summary of all simulations of WRF (v3.9 and v4.0) with various compilers and libraries.
+The aim for these performance benchmarks can be summarized as :</p>
+<blockquote>
+<div><ul class="simple">
+<li>“Is it possible to solve a problem with such-and-such resolution in a timely manner?”</li>
+<li>“If I use more cores I will have the results more quickly, but with this resolution will my run be in the efficient strong-scaling regime, an intermediate one, or in the very inefficient one dominated by I/O and initialization instead of computing?”</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>Configurations::</dt>
+<dd><ul class="first last simple">
+<li>Compilers : Intel, GNU</li>
+<li>MPI  : mpt,mvapich</li>
+<li>Cases : Katrina 1km, Katrina 3km</li>
+</ul>
+</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/all_mpi.png"><img alt="_images/all_mpi.png" src="_images/all_mpi.png" style="width: 400px;" /></a>
+</div>
+<div class="section" id="conclusion">
+<h2><a class="toc-backref" href="#id3">Conclusion</a><a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul>
+<li><p class="first">Intel + MPT gives best performance.</p>
+</li>
+<li><p class="first">As you can see, there are three regimes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>large number of grid points per core - Total grid points / core &gt; 10^5 (small core count)</li>
+<li>intermediate number of grid points per core - 104 &lt; Total grid points / core &lt; 10^5 (intermediate core count)</li>
+<li>small number of grid points per core - Total grid points / core &lt; 10^4 (large core count)</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>For a small number of cores, the WRF computation kernel is in a strong scaling regime. Increasing the core count will make the simulation go faster while it consumes approximately the same amount of core-hours (ignoring time spent in initialization and I/O). Time-to-solution will also depend on the wait in queue, which may be larger for larger jobs.</p>
+<p>For an intermediate number of cores, WRF scaling increasingly departs from linear strong scaling. Running the same simulation on larger core counts will require more core-hours even though it will still run faster (again, ignoring time spent in initialization, I/O, and wait in queue).</p>
+<p>We do not recommend running WRF on extremely large core counts, because in this regime the speed benefits diminish, the time will be dominated by initialization and I/O (as well as wait in queue), and there will be larger core-hours charges for solving the same problem.</p>
+</div></blockquote>
 </div>
 <div class="section" id="hybrid-runs">
-<h1>Hybrid Runs<a class="headerlink" href="#hybrid-runs" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="summary-wrf-v-4">
-<h2>Summary : WRF V.4<a class="headerlink" href="#summary-wrf-v-4" title="Permalink to this headline">¶</a></h2>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Intel17_16vs67.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Intel17_16vs67.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Intel17_16vs67.png" style="width: 400px;" /></a>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_speed.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_speed.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_speed.png" style="width: 400px;" /></a>
+<h2><a class="toc-backref" href="#id4">Hybrid Runs</a><a class="headerlink" href="#hybrid-runs" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>In hybrid runs, we use both Shared memory and Distributed Memory for our simulations. Hybrid runs perform better than pure MPI runs if there is good load balancing across cores.</li>
+<li>The below run shows 4 or 6 MPI tasks works best for 72 CPU’s.</li>
+<li>WRF configuration has two options to compile against intel : option 16 and option 67. From the second graph below, we find that option 67 gives better simulation speed.</li>
+<li>A summary of optimization flags used is also listed below.</li>
+</ul>
 </div>
-<div class="section" id="compiler-option-67">
-<h2>Compiler Option 67<a class="headerlink" href="#compiler-option-67" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="summary-wrf-v-4">
+<h2><a class="toc-backref" href="#id5">Summary : WRF V.4</a><a class="headerlink" href="#summary-wrf-v-4" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_speed.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_speed.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_speed.png" style="width: 400px;" /></a>
+<ul class="simple">
+<li>Option 67 gives slightly better simulation speed.</li>
+</ul>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Intel17_16vs67.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Intel17_16vs67.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Intel17_16vs67.png" style="width: 400px;" /></a>
+</div>
+<div class="section" id="compiler-option-67-flags">
+<h2><a class="toc-backref" href="#id6">Compiler Option 67 flags</a><a class="headerlink" href="#compiler-option-67-flags" title="Permalink to this headline">¶</a></h2>
 <p><strong>Flags</strong> : -xHost -fp-model fast=2 -no-heap-arrays -no-prec-div -no-prec-sqrt -fno-common -xCORE-AVX2</p>
 <p><strong>xHost</strong> : Tells the compiler to generate instructions for the highest instruction set available on the compilation host processor.</p>
 <p><strong>fp-model fast = 2</strong> : Controls the semantics of floating-point calculations. Enables more aggressive optimizations on floating-point data.</p>
@@ -177,20 +238,13 @@
 <p><strong>CORE-AVX2</strong> :  expansion of most vector integer SSE and AVX instructions to 256 bits. NASA : <a class="reference external" href="https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html">https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html</a> &lt;br&gt;</p>
 </div>
 <div class="section" id="other-hybrid-runs">
-<h2>Other Hybrid Runs<a class="headerlink" href="#other-hybrid-runs" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">Other Hybrid Runs</a><a class="headerlink" href="#other-hybrid-runs" title="Permalink to this headline">¶</a></h2>
+<p>Below are some other hybrid runs with different thread binding strategies. Using omplace gives the best performance. Use dplace if you want to manually specify cpu sets.</p>
 <a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_comp.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_comp.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_comp.png" style="width: 400px;" /></a>
 <a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_comp.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_comp.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_comp.png" style="width: 400px;" /></a>
 <a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_speed.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_speed.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_speed.png" style="width: 400px;" /></a>
 <a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png" style="width: 400px;" /></a>
 <a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png" style="width: 400px;" /></a>
-</div>
-</div>
-<div class="section" id="scalability-runs">
-<h1>Scalability Runs<a class="headerlink" href="#scalability-runs" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="wrf-v3-9">
-<h2>WRF v3.9<a class="headerlink" href="#wrf-v3-9" title="Permalink to this headline">¶</a></h2>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Scalability_Speed.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Scalability_Speed.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Scalability_Speed.png" style="width: 400px;" /></a>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Scalability_ComputationTime.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Scalability_ComputationTime.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Scalability_ComputationTime.png" style="width: 400px;" /></a>
 </div>
 </div>
 

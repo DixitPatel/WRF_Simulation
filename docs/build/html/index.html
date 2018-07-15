@@ -84,7 +84,7 @@
 <li><a class="reference internal" href="#hybrid-runs">Hybrid Runs</a></li>
 <li><a class="reference internal" href="#summary-wrf-v-4">Summary : WRF V.4</a></li>
 <li><a class="reference internal" href="#compiler-option-67-flags">Compiler Option 67 flags</a></li>
-<li><a class="reference internal" href="#other-hybrid-runs">Other Hybrid Runs</a></li>
+<li><a class="reference internal" href="#misc-hybrid-runs">Misc Hybrid Runs</a></li>
 </ul>
 </li>
 </ul>
@@ -162,7 +162,7 @@
 <li><a class="reference internal" href="#hybrid-runs" id="id4">Hybrid Runs</a></li>
 <li><a class="reference internal" href="#summary-wrf-v-4" id="id5">Summary : WRF V.4</a></li>
 <li><a class="reference internal" href="#compiler-option-67-flags" id="id6">Compiler Option 67 flags</a></li>
-<li><a class="reference internal" href="#other-hybrid-runs" id="id7">Other Hybrid Runs</a></li>
+<li><a class="reference internal" href="#misc-hybrid-runs" id="id7">Misc Hybrid Runs</a></li>
 </ul>
 </li>
 </ul>
@@ -237,14 +237,23 @@ The aim for these performance benchmarks can be summarized as :</p>
 <p><strong>no-common</strong> : Option -fno-common tells the compiler to treat common symbols as global definitions. When using this option, you can only have a common variable declared in one module; otherwise, a link time error will occur for multiple defined symbols.</p>
 <p><strong>CORE-AVX2</strong> :  expansion of most vector integer SSE and AVX instructions to 256 bits. NASA : <a class="reference external" href="https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html">https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html</a> &lt;br&gt;</p>
 </div>
-<div class="section" id="other-hybrid-runs">
-<h2><a class="toc-backref" href="#id7">Other Hybrid Runs</a><a class="headerlink" href="#other-hybrid-runs" title="Permalink to this headline">¶</a></h2>
-<p>Below are some other hybrid runs with different thread binding strategies. Using omplace gives the best performance. Use dplace if you want to manually specify cpu sets.</p>
+<div class="section" id="misc-hybrid-runs">
+<h2><a class="toc-backref" href="#id7">Misc Hybrid Runs</a><a class="headerlink" href="#misc-hybrid-runs" title="Permalink to this headline">¶</a></h2>
+<p>Below are some other hybrid run graphs with computation times, different thread binding strategies, etc. Using omplace gives the best performance. Use dplace if you want to manually specify cpu sets.</p>
+<ul class="simple">
+<li>Intel 18.0.1 Total Computation Time</li>
+</ul>
 <a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_comp.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_comp.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_comp.png" style="width: 400px;" /></a>
 <a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_comp.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_comp.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_comp.png" style="width: 400px;" /></a>
+<ul class="simple">
+<li>Intel 17.0.1 Option 16 Simulation Time</li>
+</ul>
 <a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_speed.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_speed.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_speed.png" style="width: 400px;" /></a>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png" style="width: 400px;" /></a>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png" style="width: 400px;" /></a>
+<ul class="simple">
+<li>Intel 17.0.1 Option 67 Total Computation time and Simulation Time.</li>
+</ul>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png" style="width: 300px;" /></a>
 </div>
 </div>
 

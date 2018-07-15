@@ -77,24 +77,30 @@ Compiler Option 67 flags
 **CORE-AVX2** :  expansion of most vector integer SSE and AVX instructions to 256 bits. NASA : https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html <br>
 
 
-Other Hybrid Runs
+Misc Hybrid Runs
 -------------------
-Below are some other hybrid runs with different thread binding strategies. Using omplace gives the best performance. Use dplace if you want to manually specify cpu sets.
+Below are some other hybrid run graphs with computation times, different thread binding strategies, etc. Using omplace gives the best performance. Use dplace if you want to manually specify cpu sets.
 
+- Intel 18.0.1 Total Computation Time
 
 .. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_comp.png
     :width: 400px
+	
 .. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_comp.png
     :width: 400px
 
+- Intel 17.0.1 Option 16 Simulation Time
+
 .. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_speed.png
     :width: 400px
+	
+- Intel 17.0.1 Option 67 Total Computation time and Simulation Time.
 
 .. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png
-    :width: 400px
+    :width: 300px
 
 .. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png
-    :width: 400px
+    :width: 300px
 
 
 

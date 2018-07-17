@@ -20,7 +20,7 @@ Configurations::
 	- MPI  : mpt,mvapich
 	- Cases : Katrina 1km, Katrina 3km
 
-.. image:: ../../results/all_mpi.svg
+.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/all_mpi.svg
     :width: 400px
 
 Conclusion 

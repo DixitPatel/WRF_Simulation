@@ -3,14 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-WRF Benchmarks 
+WRF Scaling Results
 ==========================================
 .. contents:: Table of Contents
 
-Scaling Results
--------------------
-
-Below graph shows the summary of all simulations of WRF (v3.9 and v4.0) with various compilers and libraries. 
+Below graph shows the summary of all simulations of WRF (v3.9 and v4.0) with various compilers and libraries.
 The aim for these performance benchmarks can be summarized as :
  - "Is it possible to solve a problem with such-and-such resolution in a timely manner?"
  - "If I use more cores I will have the results more quickly, but with this resolution will my run be in the efficient strong-scaling regime, an intermediate one, or in the very inefficient one dominated by I/O and initialization instead of computing?"
@@ -20,40 +17,53 @@ Configurations::
 	- MPI  : mpt,mvapich
 	- Cases : Katrina 1km, Katrina 3km
 
-.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/all_mpi.svg
+.. image:: ../../results/all_mpi.svg
     :width: 400px
 
-Conclusion 
+Conclusion
 -------------------
- - Intel + MPT gives best performance. 
+ - Intel + MPT gives best performance.
+
+ These were Yellowstone observations :
+
  - As you can see, there are three regimes:
 
-     - large number of grid points per core - Total grid points / core > 10^5 (small core count)
-     - intermediate number of grid points per core - 104 < Total grid points / core < 10^5 (intermediate core count)
-     - small number of grid points per core - Total grid points / core < 10^4 (large core count)
+     - large number of grid points per core - Total grid points / core > 104 (small core count)
+     - intermediate number of grid points per core - 104 < Total grid points / core < 10^4 (intermediate core count)
+     - small number of grid points per core - Total grid points / core < 104 (large core count)
 
  For a small number of cores, the WRF computation kernel is in a strong scaling regime. Increasing the core count will make the simulation go faster while it consumes approximately the same amount of core-hours (ignoring time spent in initialization and I/O). Time-to-solution will also depend on the wait in queue, which may be larger for larger jobs.
- 
+
  For an intermediate number of cores, WRF scaling increasingly departs from linear strong scaling. Running the same simulation on larger core counts will require more core-hours even though it will still run faster (again, ignoring time spent in initialization, I/O, and wait in queue).
- 
- We do not recommend running WRF on extremely large core counts, because in this regime the speed benefits diminish, the time will be dominated by initialization and I/O (as well as wait in queue), and there will be larger core-hours charges for solving the same problem.
 
-Hybrid Runs
--------------------
-- In hybrid runs, we use both Shared memory and Distributed Memory for our simulations. Hybrid runs perform better than pure MPI runs if there is good load balancing across cores. 
-- The below run shows 4 or 6 MPI tasks works best for 72 CPU's. 
-- WRF configuration has two options to compile against intel : option 16 and option 67. From the second graph below, we find that option 67 gives better simulation speed. 
-- A summary of optimization flags used is also listed below.
+We do not recommend running WRF on extremely large core counts, because in this regime the speed benefits diminish, the time will be dominated by initialization and I/O (as well as wait in queue), and there will be larger core-hours charges for solving the same problem.
 
-Summary : WRF V.4
+Hybrid Runs Summary
 -------------------
 
-.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_speed.png
+- In hybrid runs, we use both Shared memory and Distributed Memory for our simulations. Hybrid runs perform better than pure MPI runs if there is good load balancing across cores.
+- The below run shows 4 or 6 MPI tasks works best.( Below Runs are for 72 CPU's total)
+- There are two options two compile WRF when using Intel:
+  1. Option 15/16 : This is a normal option without any opt flags
+  2. Option 66/67. This uses several opt flags, a summary of which is listed below.
+
+From the second graph below, we find that option 67 gives better simulation speed.
+
+- **WRFV4 Intel 18.0.1 MPT 2.18 OpenMP/MPI Speedup Comparision.** ::
+
+  	Note : 36mpi means no openmp threads. 66 and 15 are the compilation options available for Intel.
+
+.. image:: ../../results/hybrid_mpi_speedup.svg
     :width: 400px
-	
-- Option 67 gives slightly better simulation speed.
 
-.. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Intel17_16vs67.png
+- **WRFV4 Intel 18.0.1 MPT 2.18 OpenMP Comparisions.**
+
+.. image:: ../../results/intel18_openmp_67_speed.png
+    :width: 400px
+
+- **Option 67 gives slightly better simulation speed.**
+
+.. image:: ../../results/Intel17_16vs67.png
     :width: 400px
 
 
@@ -77,6 +87,66 @@ Compiler Option 67 flags
 **CORE-AVX2** :  expansion of most vector integer SSE and AVX instructions to 256 bits. NASA : https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html <br>
 
 
+HyperThreading Results
+==========================================
+**Configuration** : WRFV4. Katrina 3km 800x900
+
+Hyperthreading on cheyenne lowers the model performance. Below are a few comparisions with hyperthreading.
+
+- **Recommendation**::
+
+  	In-case your run requires hyperthreading, it is recommended to specify ncpus = 36 and mpiprocs = 72
+		For e.g in PBS script : #PBS -l select=2:ncpus=36:mpiprocs=72
+		instead of :            #PBS -l select=2:ncpus=72:mpiprocs=72
+	
+  	Observation :  
+		wrf_stats output shows different result based on how the cores & mpi tasks were specified in the script. 
+	 	Eg :
+		1. #PBS -l select=2:ncpus=72:mpiprocs=72 :  XxY = 12x12	& CPU's = 144
+		2. #PBS -l select=2:ncpus=36:mpiprocs=72 :  XxY = 16x18 & CPU's = 288
+		XxY & CPUs are columns taken from wrf_stats output by running the following command : ./wrf_stats -t -H -d .*
+
+- **Following are speedup comparisions when specifying:** ::
+	
+	PBS -l select=2:ncpus=72:mpiprocs=72
+	
+- **Intel 18.0.1 + MPT 2.18.**
+
+.. image:: ../../results/new_htt_mpt.svg
+    :width: 400px
+
+- **GNU 8.1.0 + Mvapich2.2.**
+
+.. image:: ../../results/new_htt_mvapich.svg
+    :width: 400px
+	
+- **Intel 18.0.1 + GNU 8.1.0.**
+
+.. image:: ../../results/new_htt_mvapich_mpt.svg
+    :width: 400px
+
+Note : Although, this would not be an apples to apples comparision, mvapich seems to do better on higher node counts.
+	
+- Following are speedup comparisions when specifying: ::
+
+	PBS -l select=2:ncpus=36:mpiprocs=72
+
+- **Intel 18.0.1 MPT 2.18 NCPUS = 36**
+
+.. image:: ../../results/new_htt_mpt_36.svg
+    :width: 400px
+	
+
+
+Mvapich
+------------------------
+Mvapich provides several runtime options to optimize performance. It interfaces with [hwloc](https://www.open-mpi.org/projects/hwloc/) software package to provide various thread bindings.
+Below are some comparisions done using various settings
+
+
+
+
+
 Misc Hybrid Runs
 -------------------
 Below are some other hybrid run graphs with computation times, different thread binding strategies, etc. Using omplace gives the best performance. Use dplace if you want to manually specify cpu sets.
@@ -85,7 +155,7 @@ Below are some other hybrid run graphs with computation times, different thread 
 
 .. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_comp.png
     :width: 400px
-	
+
 .. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_comp.png
     :width: 400px
 
@@ -93,7 +163,7 @@ Below are some other hybrid run graphs with computation times, different thread 
 
 .. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_16_speed.png
     :width: 400px
-	
+
 - Intel 17.0.1 Option 67 Total Computation time and Simulation Time.
 
 .. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_comp.png
@@ -101,8 +171,3 @@ Below are some other hybrid run graphs with computation times, different thread 
 
 .. image:: https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel17_openmp_67_speed.png
     :width: 300px
-
-
-
-
-

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>WRF Benchmarks &mdash; WRF Benchmarks 0.0.1 documentation</title>
+  <title>WRF Scaling Results &mdash; WRF Benchmarks 0.0.1 documentation</title>
   
 
   
@@ -78,12 +78,14 @@
             
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">WRF Benchmarks</a><ul>
-<li><a class="reference internal" href="#scaling-results">Scaling Results</a></li>
+<li><a class="reference internal" href="#">WRF Scaling Results</a><ul>
 <li><a class="reference internal" href="#conclusion">Conclusion</a></li>
-<li><a class="reference internal" href="#hybrid-runs">Hybrid Runs</a></li>
-<li><a class="reference internal" href="#summary-wrf-v-4">Summary : WRF V.4</a></li>
+<li><a class="reference internal" href="#hybrid-runs-summary">Hybrid Runs Summary</a></li>
 <li><a class="reference internal" href="#compiler-option-67-flags">Compiler Option 67 flags</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hyperthreading-results">HyperThreading Results</a><ul>
+<li><a class="reference internal" href="#mvapich">Mvapich</a></li>
 <li><a class="reference internal" href="#misc-hybrid-runs">Misc Hybrid Runs</a></li>
 </ul>
 </li>
@@ -132,7 +134,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>WRF Benchmarks</li>
+      <li>WRF Scaling Results</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -151,24 +153,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="wrf-benchmarks">
-<h1><a class="toc-backref" href="#id1">WRF Benchmarks</a><a class="headerlink" href="#wrf-benchmarks" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="wrf-scaling-results">
+<h1><a class="toc-backref" href="#id1">WRF Scaling Results</a><a class="headerlink" href="#wrf-scaling-results" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#wrf-benchmarks" id="id1">WRF Benchmarks</a><ul>
-<li><a class="reference internal" href="#scaling-results" id="id2">Scaling Results</a></li>
-<li><a class="reference internal" href="#conclusion" id="id3">Conclusion</a></li>
-<li><a class="reference internal" href="#hybrid-runs" id="id4">Hybrid Runs</a></li>
-<li><a class="reference internal" href="#summary-wrf-v-4" id="id5">Summary : WRF V.4</a></li>
-<li><a class="reference internal" href="#compiler-option-67-flags" id="id6">Compiler Option 67 flags</a></li>
+<li><a class="reference internal" href="#wrf-scaling-results" id="id1">WRF Scaling Results</a><ul>
+<li><a class="reference internal" href="#conclusion" id="id2">Conclusion</a></li>
+<li><a class="reference internal" href="#hybrid-runs-summary" id="id3">Hybrid Runs Summary</a></li>
+<li><a class="reference internal" href="#compiler-option-67-flags" id="id4">Compiler Option 67 flags</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hyperthreading-results" id="id5">HyperThreading Results</a><ul>
+<li><a class="reference internal" href="#mvapich" id="id6">Mvapich</a></li>
 <li><a class="reference internal" href="#misc-hybrid-runs" id="id7">Misc Hybrid Runs</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="scaling-results">
-<h2><a class="toc-backref" href="#id2">Scaling Results</a><a class="headerlink" href="#scaling-results" title="Permalink to this headline">¶</a></h2>
 <p>Below graph shows the summary of all simulations of WRF (v3.9 and v4.0) with various compilers and libraries.
 The aim for these performance benchmarks can be summarized as :</p>
 <blockquote>
@@ -186,48 +188,59 @@ The aim for these performance benchmarks can be summarized as :</p>
 </ul>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/all_mpi.svg"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/all_mpi.svg" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/all_mpi.svg" width="400px" /></a>
-</div>
+<a class="reference internal image-reference" href="_images/all_mpi.svg"><img alt="_images/all_mpi.svg" src="_images/all_mpi.svg" width="400px" /></a>
 <div class="section" id="conclusion">
-<h2><a class="toc-backref" href="#id3">Conclusion</a><a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Conclusion</a><a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><ul>
-<li><p class="first">Intel + MPT gives best performance.</p>
-</li>
+<div><ul class="simple">
+<li>Intel + MPT gives best performance.</li>
+</ul>
+<p>These were Yellowstone observations :</p>
+<ul>
 <li><p class="first">As you can see, there are three regimes:</p>
 <blockquote>
 <div><ul class="simple">
-<li>large number of grid points per core - Total grid points / core &gt; 10^5 (small core count)</li>
-<li>intermediate number of grid points per core - 104 &lt; Total grid points / core &lt; 10^5 (intermediate core count)</li>
-<li>small number of grid points per core - Total grid points / core &lt; 10^4 (large core count)</li>
+<li>large number of grid points per core - Total grid points / core &gt; 104 (small core count)</li>
+<li>intermediate number of grid points per core - 104 &lt; Total grid points / core &lt; 10^4 (intermediate core count)</li>
+<li>small number of grid points per core - Total grid points / core &lt; 104 (large core count)</li>
 </ul>
 </div></blockquote>
 </li>
 </ul>
 <p>For a small number of cores, the WRF computation kernel is in a strong scaling regime. Increasing the core count will make the simulation go faster while it consumes approximately the same amount of core-hours (ignoring time spent in initialization and I/O). Time-to-solution will also depend on the wait in queue, which may be larger for larger jobs.</p>
 <p>For an intermediate number of cores, WRF scaling increasingly departs from linear strong scaling. Running the same simulation on larger core counts will require more core-hours even though it will still run faster (again, ignoring time spent in initialization, I/O, and wait in queue).</p>
-<p>We do not recommend running WRF on extremely large core counts, because in this regime the speed benefits diminish, the time will be dominated by initialization and I/O (as well as wait in queue), and there will be larger core-hours charges for solving the same problem.</p>
 </div></blockquote>
+<p>We do not recommend running WRF on extremely large core counts, because in this regime the speed benefits diminish, the time will be dominated by initialization and I/O (as well as wait in queue), and there will be larger core-hours charges for solving the same problem.</p>
 </div>
-<div class="section" id="hybrid-runs">
-<h2><a class="toc-backref" href="#id4">Hybrid Runs</a><a class="headerlink" href="#hybrid-runs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hybrid-runs-summary">
+<h2><a class="toc-backref" href="#id3">Hybrid Runs Summary</a><a class="headerlink" href="#hybrid-runs-summary" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>In hybrid runs, we use both Shared memory and Distributed Memory for our simulations. Hybrid runs perform better than pure MPI runs if there is good load balancing across cores.</li>
-<li>The below run shows 4 or 6 MPI tasks works best for 72 CPU’s.</li>
-<li>WRF configuration has two options to compile against intel : option 16 and option 67. From the second graph below, we find that option 67 gives better simulation speed.</li>
-<li>A summary of optimization flags used is also listed below.</li>
+<li>The below run shows 4 or 6 MPI tasks works best.( Below Runs are for 72 CPU’s total)</li>
+<li>There are two options two compile WRF when using Intel:
+1. Option 15/16 : This is a normal option without any opt flags
+2. Option 66/67. This uses several opt flags, a summary of which is listed below.</li>
 </ul>
+<p>From the second graph below, we find that option 67 gives better simulation speed.</p>
+<ul>
+<li><p class="first"><strong>WRFV4 Intel 18.0.1 MPT 2.18 OpenMP/MPI Speedup Comparision.</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Note</span> <span class="p">:</span> <span class="mi">36</span><span class="n">mpi</span> <span class="n">means</span> <span class="n">no</span> <span class="n">openmp</span> <span class="n">threads</span><span class="o">.</span> <span class="mi">66</span> <span class="ow">and</span> <span class="mi">15</span> <span class="n">are</span> <span class="n">the</span> <span class="n">compilation</span> <span class="n">options</span> <span class="n">available</span> <span class="k">for</span> <span class="n">Intel</span><span class="o">.</span>
+</pre></div>
 </div>
-<div class="section" id="summary-wrf-v-4">
-<h2><a class="toc-backref" href="#id5">Summary : WRF V.4</a><a class="headerlink" href="#summary-wrf-v-4" title="Permalink to this headline">¶</a></h2>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_speed.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_speed.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/intel18_openmp_67_speed.png" style="width: 400px;" /></a>
-<ul class="simple">
-<li>Option 67 gives slightly better simulation speed.</li>
+</li>
 </ul>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Intel17_16vs67.png"><img alt="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Intel17_16vs67.png" src="https://raw.githubusercontent.com/DixitPatel/WRF_Simulation/master/results/Intel17_16vs67.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/hybrid_mpi_speedup.svg"><img alt="_images/hybrid_mpi_speedup.svg" src="_images/hybrid_mpi_speedup.svg" width="400px" /></a>
+<ul class="simple">
+<li><strong>WRFV4 Intel 18.0.1 MPT 2.18 OpenMP Comparisions.</strong></li>
+</ul>
+<a class="reference internal image-reference" href="_images/intel18_openmp_67_speed.png"><img alt="_images/intel18_openmp_67_speed.png" src="_images/intel18_openmp_67_speed.png" style="width: 400px;" /></a>
+<ul class="simple">
+<li><strong>Option 67 gives slightly better simulation speed.</strong></li>
+</ul>
+<a class="reference internal image-reference" href="_images/Intel17_16vs67.png"><img alt="_images/Intel17_16vs67.png" src="_images/Intel17_16vs67.png" style="width: 400px;" /></a>
 </div>
 <div class="section" id="compiler-option-67-flags">
-<h2><a class="toc-backref" href="#id6">Compiler Option 67 flags</a><a class="headerlink" href="#compiler-option-67-flags" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Compiler Option 67 flags</a><a class="headerlink" href="#compiler-option-67-flags" title="Permalink to this headline">¶</a></h2>
 <p><strong>Flags</strong> : -xHost -fp-model fast=2 -no-heap-arrays -no-prec-div -no-prec-sqrt -fno-common -xCORE-AVX2</p>
 <p><strong>xHost</strong> : Tells the compiler to generate instructions for the highest instruction set available on the compilation host processor.</p>
 <p><strong>fp-model fast = 2</strong> : Controls the semantics of floating-point calculations. Enables more aggressive optimizations on floating-point data.</p>
@@ -236,6 +249,59 @@ The aim for these performance benchmarks can be summarized as :</p>
 <p><strong>no-prec-sqrt</strong> :  The compiler uses a faster but less precise implementation of square root.</p>
 <p><strong>no-common</strong> : Option -fno-common tells the compiler to treat common symbols as global definitions. When using this option, you can only have a common variable declared in one module; otherwise, a link time error will occur for multiple defined symbols.</p>
 <p><strong>CORE-AVX2</strong> :  expansion of most vector integer SSE and AVX instructions to 256 bits. NASA : <a class="reference external" href="https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html">https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html</a> &lt;br&gt;</p>
+</div>
+</div>
+<div class="section" id="hyperthreading-results">
+<h1><a class="toc-backref" href="#id5">HyperThreading Results</a><a class="headerlink" href="#hyperthreading-results" title="Permalink to this headline">¶</a></h1>
+<p><strong>Configuration</strong> : WRFV4. Katrina 3km 800x900</p>
+<p>Hyperthreading on cheyenne lowers the model performance. Below are a few comparisions with hyperthreading.</p>
+<ul>
+<li><p class="first"><strong>Recommendation</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span><span class="o">-</span><span class="n">case</span> <span class="n">your</span> <span class="n">run</span> <span class="n">requires</span> <span class="n">hyperthreading</span><span class="p">,</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">recommended</span> <span class="n">to</span> <span class="n">specify</span> <span class="n">ncpus</span> <span class="o">=</span> <span class="mi">36</span> <span class="ow">and</span> <span class="n">mpiprocs</span> <span class="o">=</span> <span class="mi">72</span>
+        <span class="n">For</span> <span class="n">e</span><span class="o">.</span><span class="n">g</span> <span class="ow">in</span> <span class="n">PBS</span> <span class="n">script</span> <span class="p">:</span> <span class="c1">#PBS -l select=2:ncpus=36:mpiprocs=72</span>
+        <span class="n">instead</span> <span class="n">of</span> <span class="p">:</span>            <span class="c1">#PBS -l select=2:ncpus=72:mpiprocs=72</span>
+
+<span class="n">Observation</span> <span class="p">:</span>
+        <span class="n">wrf_stats</span> <span class="n">output</span> <span class="n">shows</span> <span class="n">different</span> <span class="n">result</span> <span class="n">based</span> <span class="n">on</span> <span class="n">how</span> <span class="n">the</span> <span class="n">cores</span> <span class="o">&amp;</span> <span class="n">mpi</span> <span class="n">tasks</span> <span class="n">were</span> <span class="n">specified</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">script</span><span class="o">.</span>
+        <span class="n">Eg</span> <span class="p">:</span>
+        <span class="mf">1.</span> <span class="c1">#PBS -l select=2:ncpus=72:mpiprocs=72 :  XxY = 12x12 &amp; CPU&#39;s = 144</span>
+        <span class="mf">2.</span> <span class="c1">#PBS -l select=2:ncpus=36:mpiprocs=72 :  XxY = 16x18 &amp; CPU&#39;s = 288</span>
+        <span class="n">XxY</span> <span class="o">&amp;</span> <span class="n">CPUs</span> <span class="n">are</span> <span class="n">columns</span> <span class="n">taken</span> <span class="kn">from</span> <span class="nn">wrf_stats</span> <span class="n">output</span> <span class="n">by</span> <span class="n">running</span> <span class="n">the</span> <span class="n">following</span> <span class="n">command</span> <span class="p">:</span> <span class="o">./</span><span class="n">wrf_stats</span> <span class="o">-</span><span class="n">t</span> <span class="o">-</span><span class="n">H</span> <span class="o">-</span><span class="n">d</span> <span class="o">.*</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Following are speedup comparisions when specifying:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PBS</span> <span class="o">-</span><span class="n">l</span> <span class="n">select</span><span class="o">=</span><span class="mi">2</span><span class="p">:</span><span class="n">ncpus</span><span class="o">=</span><span class="mi">72</span><span class="p">:</span><span class="n">mpiprocs</span><span class="o">=</span><span class="mi">72</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Intel 18.0.1 + MPT 2.18.</strong></p>
+</li>
+</ul>
+<a class="reference internal image-reference" href="_images/new_htt_mpt.svg"><img alt="_images/new_htt_mpt.svg" src="_images/new_htt_mpt.svg" width="400px" /></a>
+<ul class="simple">
+<li><strong>GNU 8.1.0 + Mvapich2.2.</strong></li>
+</ul>
+<a class="reference internal image-reference" href="_images/new_htt_mvapich.svg"><img alt="_images/new_htt_mvapich.svg" src="_images/new_htt_mvapich.svg" width="400px" /></a>
+<ul class="simple">
+<li><strong>Intel 18.0.1 + GNU 8.1.0.</strong></li>
+</ul>
+<a class="reference internal image-reference" href="_images/new_htt_mvapich_mpt.svg"><img alt="_images/new_htt_mvapich_mpt.svg" src="_images/new_htt_mvapich_mpt.svg" width="400px" /></a>
+<p>Note : Although, this would not be an apples to apples comparision, mvapich seems to do better on higher node counts.</p>
+<ul>
+<li><p class="first">Following are speedup comparisions when specifying:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PBS</span> <span class="o">-</span><span class="n">l</span> <span class="n">select</span><span class="o">=</span><span class="mi">2</span><span class="p">:</span><span class="n">ncpus</span><span class="o">=</span><span class="mi">36</span><span class="p">:</span><span class="n">mpiprocs</span><span class="o">=</span><span class="mi">72</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Intel 18.0.1 MPT 2.18 NCPUS = 36</strong></p>
+</li>
+</ul>
+<a class="reference internal image-reference" href="_images/new_htt_mpt_36.svg"><img alt="_images/new_htt_mpt_36.svg" src="_images/new_htt_mpt_36.svg" width="400px" /></a>
+<div class="section" id="mvapich">
+<h2><a class="toc-backref" href="#id6">Mvapich</a><a class="headerlink" href="#mvapich" title="Permalink to this headline">¶</a></h2>
+<p>Mvapich provides several runtime options to optimize performance. It interfaces with [hwloc](<a class="reference external" href="https://www.open-mpi.org/projects/hwloc/">https://www.open-mpi.org/projects/hwloc/</a>) software package to provide various thread bindings.
+Below are some comparisions done using various settings</p>
 </div>
 <div class="section" id="misc-hybrid-runs">
 <h2><a class="toc-backref" href="#id7">Misc Hybrid Runs</a><a class="headerlink" href="#misc-hybrid-runs" title="Permalink to this headline">¶</a></h2>

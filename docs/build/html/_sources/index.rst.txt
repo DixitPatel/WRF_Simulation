@@ -128,7 +128,7 @@ Hyperthreading on cheyenne lowers the model performance. Below are a few compari
 	
 - **Intel 18.0.1 + GNU 8.1.0.**
 
-.. Tip:: This is not an apples to apples comparision. But it still goes to show WRF's performance across compilers. Our above scaling results suggests that GNU with MPT would do better over GNU with MVAPICH
+.. Tip:: This is not an apples to apples comparision. But the scaling results above suggests GNU with MPT would do better over GNU with MVAPICH for this case.
  
 .. image:: ../../results/new_htt_mvapich_mpt.svg
     :width: 400px
@@ -149,6 +149,7 @@ Mvapich
 ------------------------
 Mvapich provides several runtime options to optimize performance. It interfaces with [hwloc](https://www.open-mpi.org/projects/hwloc/) software package to provide various thread bindings.
 Below are some comparisions done using various settings
+TODO 
 
 
 

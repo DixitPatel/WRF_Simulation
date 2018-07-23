@@ -155,6 +155,10 @@
             
   <div class="section" id="wrf-scaling-results">
 <h1><a class="toc-backref" href="#id1">WRF Scaling Results</a><a class="headerlink" href="#wrf-scaling-results" title="Permalink to this headline">¶</a></h1>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">Under revision</p>
+</div>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
@@ -171,7 +175,7 @@
 </li>
 </ul>
 </div>
-<p>Below graph shows the summary of all simulations of WRF (v3.9 and v4.0) with various compilers and libraries.
+<p>Below graph gives the summary for all simulations with various compilers and libraries.
 The aim for these performance benchmarks can be summarized as :</p>
 <blockquote>
 <div><ul class="simple">
@@ -193,10 +197,12 @@ The aim for these performance benchmarks can be summarized as :</p>
 <h2><a class="toc-backref" href="#id2">Conclusion</a><a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
-<li>Intel + MPT gives best performance.</li>
+<li>Intel 18.0.1 (latest) + MPT 2.18 gives the best performance.</li>
 </ul>
-<p>These were Yellowstone observations :</p>
-<ul>
+</div></blockquote>
+<dl class="docutils">
+<dt><cite>Yellowstone&lt;https://www2.cisl.ucar.edu/software/community-models/wrf-scaling-and-timing&gt;</cite></dt>
+<dd><ul class="first">
 <li><p class="first">As you can see, there are three regimes:</p>
 <blockquote>
 <div><ul class="simple">
@@ -208,23 +214,28 @@ The aim for these performance benchmarks can be summarized as :</p>
 </li>
 </ul>
 <p>For a small number of cores, the WRF computation kernel is in a strong scaling regime. Increasing the core count will make the simulation go faster while it consumes approximately the same amount of core-hours (ignoring time spent in initialization and I/O). Time-to-solution will also depend on the wait in queue, which may be larger for larger jobs.</p>
-<p>For an intermediate number of cores, WRF scaling increasingly departs from linear strong scaling. Running the same simulation on larger core counts will require more core-hours even though it will still run faster (again, ignoring time spent in initialization, I/O, and wait in queue).</p>
-</div></blockquote>
+<p class="last">For an intermediate number of cores, WRF scaling increasingly departs from linear strong scaling. Running the same simulation on larger core counts will require more core-hours even though it will still run faster (again, ignoring time spent in initialization, I/O, and wait in queue).</p>
+</dd>
+</dl>
 <p>We do not recommend running WRF on extremely large core counts, because in this regime the speed benefits diminish, the time will be dominated by initialization and I/O (as well as wait in queue), and there will be larger core-hours charges for solving the same problem.</p>
 </div>
 <div class="section" id="hybrid-runs-summary">
 <h2><a class="toc-backref" href="#id3">Hybrid Runs Summary</a><a class="headerlink" href="#hybrid-runs-summary" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>In hybrid runs, we use both Shared memory and Distributed Memory for our simulations. Hybrid runs perform better than pure MPI runs if there is good load balancing across cores.</li>
-<li>The below run shows 4 or 6 MPI tasks works best.( Below Runs are for 72 CPU’s total)</li>
-<li>There are two options two compile WRF when using Intel:
-1. Option 15/16 : This is a normal option without any opt flags
-2. Option 66/67. This uses several opt flags, a summary of which is listed below.</li>
+<li>Hybrid runs perform better than pure MPI runs if there is good load balancing across cores.</li>
+<li>The below run shows 4 or 6 MPI tasks works best.( Total 72 CPU’s were used)</li>
+<li>There are two options available to user to compile WRF with Intel (./configure):
+1. Option 15/16 : This is a normal option without any optimization flags
+2. Option 66/67. This uses several optimization flags, a summary of which is listed below.</li>
 </ul>
-<p>From the second graph below, we find that option 67 gives better simulation speed.</p>
+<p><strong>Configuration</strong></p>
+<blockquote>
+<div>Run : WRFV4 Katrina 3km
+NCPUS : 72</div></blockquote>
 <ul>
 <li><p class="first"><strong>WRFV4 Intel 18.0.1 MPT 2.18 OpenMP/MPI Speedup Comparision.</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Note</span> <span class="p">:</span> <span class="mi">36</span><span class="n">mpi</span> <span class="n">means</span> <span class="n">no</span> <span class="n">openmp</span> <span class="n">threads</span><span class="o">.</span> <span class="mi">66</span> <span class="ow">and</span> <span class="mi">15</span> <span class="n">are</span> <span class="n">the</span> <span class="n">compilation</span> <span class="n">options</span> <span class="n">available</span> <span class="k">for</span> <span class="n">Intel</span><span class="o">.</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Note</span> <span class="p">:</span> <span class="mi">36</span><span class="n">mpi</span> <span class="n">means</span> <span class="n">no</span> <span class="n">openmp</span> <span class="n">threads</span><span class="o">.</span>
+<span class="n">As</span> <span class="n">we</span> <span class="n">can</span> <span class="n">see</span><span class="p">,</span> <span class="n">hybrid</span> <span class="n">mpi</span> <span class="k">with</span> <span class="mi">4</span> <span class="n">MPI</span> <span class="n">tasks</span> <span class="ow">and</span> <span class="mi">9</span> <span class="n">OpenMP</span> <span class="n">threads</span> <span class="n">performs</span> <span class="n">the</span> <span class="n">best</span><span class="o">.</span> <span class="n">From</span> <span class="n">the</span> <span class="n">last</span> <span class="n">two</span> <span class="n">bars</span><span class="p">,</span> <span class="n">Option</span> <span class="mi">66</span> <span class="n">gives</span> <span class="n">better</span> <span class="n">speedup</span> <span class="n">than</span> <span class="n">option</span> <span class="mf">15.</span>
 </pre></div>
 </div>
 </li>
@@ -233,11 +244,15 @@ The aim for these performance benchmarks can be summarized as :</p>
 <ul class="simple">
 <li><strong>WRFV4 Intel 18.0.1 MPT 2.18 OpenMP Comparisions.</strong></li>
 </ul>
-<a class="reference internal image-reference" href="_images/intel18_openmp_67_speed.png"><img alt="_images/intel18_openmp_67_speed.png" src="_images/intel18_openmp_67_speed.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/intel18_openmp_67_speed.svg"><img alt="_images/intel18_openmp_67_speed.svg" src="_images/intel18_openmp_67_speed.svg" width="400px" /></a>
 <ul class="simple">
 <li><strong>Option 67 gives slightly better simulation speed.</strong></li>
 </ul>
-<a class="reference internal image-reference" href="_images/Intel17_16vs67.png"><img alt="_images/Intel17_16vs67.png" src="_images/Intel17_16vs67.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/Intel17_16vs67.svg"><img alt="_images/Intel17_16vs67.svg" src="_images/Intel17_16vs67.svg" width="400px" /></a>
+<ul class="simple">
+<li><strong>Option 15 vs Option 66 MPI only comparision</strong></li>
+</ul>
+<a class="reference internal image-reference" href="_images/15_vs_66.svg"><img alt="_images/15_vs_66.svg" src="_images/15_vs_66.svg" width="400px" /></a>
 </div>
 <div class="section" id="compiler-option-67-flags">
 <h2><a class="toc-backref" href="#id4">Compiler Option 67 flags</a><a class="headerlink" href="#compiler-option-67-flags" title="Permalink to this headline">¶</a></h2>
@@ -248,28 +263,39 @@ The aim for these performance benchmarks can be summarized as :</p>
 <p><strong>no-prec-div</strong> :  Improves precision of floating-point divides.  (No) : it enables optimizations that give slightly less precise results than full IEEE division.</p>
 <p><strong>no-prec-sqrt</strong> :  The compiler uses a faster but less precise implementation of square root.</p>
 <p><strong>no-common</strong> : Option -fno-common tells the compiler to treat common symbols as global definitions. When using this option, you can only have a common variable declared in one module; otherwise, a link time error will occur for multiple defined symbols.</p>
-<p><strong>CORE-AVX2</strong> :  expansion of most vector integer SSE and AVX instructions to 256 bits. NASA : <a class="reference external" href="https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html">https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html</a> &lt;br&gt;</p>
+<p><strong>CORE-AVX2</strong> :  expansion of most vector integer SSE and AVX instructions to 256 bits. <cite>NASA</cite> &lt;<a class="reference external" href="https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html">https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html</a>&gt;</p>
 </div>
 </div>
 <div class="section" id="hyperthreading-results">
 <h1><a class="toc-backref" href="#id5">HyperThreading Results</a><a class="headerlink" href="#hyperthreading-results" title="Permalink to this headline">¶</a></h1>
 <p><strong>Configuration</strong> : WRFV4. Katrina 3km 800x900</p>
-<p>Hyperthreading on cheyenne lowers the model performance. Below are a few comparisions with hyperthreading.</p>
-<ul>
-<li><p class="first"><strong>Recommendation</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span><span class="o">-</span><span class="n">case</span> <span class="n">your</span> <span class="n">run</span> <span class="n">requires</span> <span class="n">hyperthreading</span><span class="p">,</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">recommended</span> <span class="n">to</span> <span class="n">specify</span> <span class="n">ncpus</span> <span class="o">=</span> <span class="mi">36</span> <span class="ow">and</span> <span class="n">mpiprocs</span> <span class="o">=</span> <span class="mi">72</span>
-        <span class="n">For</span> <span class="n">e</span><span class="o">.</span><span class="n">g</span> <span class="ow">in</span> <span class="n">PBS</span> <span class="n">script</span> <span class="p">:</span> <span class="c1">#PBS -l select=2:ncpus=36:mpiprocs=72</span>
-        <span class="n">instead</span> <span class="n">of</span> <span class="p">:</span>            <span class="c1">#PBS -l select=2:ncpus=72:mpiprocs=72</span>
-
-<span class="n">Observation</span> <span class="p">:</span>
-        <span class="n">wrf_stats</span> <span class="n">output</span> <span class="n">shows</span> <span class="n">different</span> <span class="n">result</span> <span class="n">based</span> <span class="n">on</span> <span class="n">how</span> <span class="n">the</span> <span class="n">cores</span> <span class="o">&amp;</span> <span class="n">mpi</span> <span class="n">tasks</span> <span class="n">were</span> <span class="n">specified</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">script</span><span class="o">.</span>
-        <span class="n">Eg</span> <span class="p">:</span>
-        <span class="mf">1.</span> <span class="c1">#PBS -l select=2:ncpus=72:mpiprocs=72 :  XxY = 12x12 &amp; CPU&#39;s = 144</span>
-        <span class="mf">2.</span> <span class="c1">#PBS -l select=2:ncpus=36:mpiprocs=72 :  XxY = 16x18 &amp; CPU&#39;s = 288</span>
-        <span class="n">XxY</span> <span class="o">&amp;</span> <span class="n">CPUs</span> <span class="n">are</span> <span class="n">columns</span> <span class="n">taken</span> <span class="kn">from</span> <span class="nn">wrf_stats</span> <span class="n">output</span> <span class="n">by</span> <span class="n">running</span> <span class="n">the</span> <span class="n">following</span> <span class="n">command</span> <span class="p">:</span> <span class="o">./</span><span class="n">wrf_stats</span> <span class="o">-</span><span class="n">t</span> <span class="o">-</span><span class="n">H</span> <span class="o">-</span><span class="n">d</span> <span class="o">.*</span>
-</pre></div>
+<p>Hyperthreading on cheyenne lowers the model performance. Below are a few comparisions with hyperthreading. Some examples of PBS scripts can be found here : [Cheyenne](<a class="reference external" href="https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/hyper-threading-cheyenne">https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/hyper-threading-cheyenne</a>)</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<dl class="last docutils">
+<dt>In-case your run requires hyperthreading, it is recommended to specify ncpus = 36 and mpiprocs = 72</dt>
+<dd><dl class="first last docutils">
+<dt>For e.g in PBS script</dt>
+<dd><ul class="first last simple">
+<li>#PBS -l select=2:ncpus=36:mpiprocs=72</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Observation :</dt>
+<dd><p class="first">wrf_stats output shows different result based on how the cores &amp; mpi tasks were specified in the script.
+Eg :</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>#PBS -l select=2:ncpus=72:mpiprocs=72 =&gt;  XxY = 12x12        &amp; CPU’s = 144</li>
+<li>#PBS -l select=2:ncpus=36:mpiprocs=72 =&gt;  XxY = 16x18 &amp; CPU’s = 288</li>
+</ol>
+</div></blockquote>
+<p class="last">Note: <em>XxY &amp; CPUs are columns taken from wrf_stats output by running the following command : ./wrf_stats -t -H -d .</em></p>
+</dd>
+</dl>
 </div>
-</li>
+<ul>
 <li><p class="first"><strong>Following are speedup comparisions when specifying:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PBS</span> <span class="o">-</span><span class="n">l</span> <span class="n">select</span><span class="o">=</span><span class="mi">2</span><span class="p">:</span><span class="n">ncpus</span><span class="o">=</span><span class="mi">72</span><span class="p">:</span><span class="n">mpiprocs</span><span class="o">=</span><span class="mi">72</span>
 </pre></div>
@@ -286,10 +312,13 @@ The aim for these performance benchmarks can be summarized as :</p>
 <ul class="simple">
 <li><strong>Intel 18.0.1 + GNU 8.1.0.</strong></li>
 </ul>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">This is not an apples to apples comparision. But it still goes to show WRF’s performance across compilers. Our above scaling results suggests that GNU with MPT would do better over GNU with MVAPICH</p>
+</div>
 <a class="reference internal image-reference" href="_images/new_htt_mvapich_mpt.svg"><img alt="_images/new_htt_mvapich_mpt.svg" src="_images/new_htt_mvapich_mpt.svg" width="400px" /></a>
-<p>Note : Although, this would not be an apples to apples comparision, mvapich seems to do better on higher node counts.</p>
 <ul>
-<li><p class="first">Following are speedup comparisions when specifying:</p>
+<li><p class="first"><strong>Following are speedup comparisions when specifying:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PBS</span> <span class="o">-</span><span class="n">l</span> <span class="n">select</span><span class="o">=</span><span class="mi">2</span><span class="p">:</span><span class="n">ncpus</span><span class="o">=</span><span class="mi">36</span><span class="p">:</span><span class="n">mpiprocs</span><span class="o">=</span><span class="mi">72</span>
 </pre></div>
 </div>

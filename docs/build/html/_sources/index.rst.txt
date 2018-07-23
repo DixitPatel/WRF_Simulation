@@ -5,9 +5,10 @@
 
 WRF Scaling Results
 ==========================================
+.. Attention:: Under revision
 .. contents:: Table of Contents
 
-Below graph shows the summary of all simulations of WRF (v3.9 and v4.0) with various compilers and libraries.
+Below graph gives the summary for all simulations with various compilers and libraries.
 The aim for these performance benchmarks can be summarized as :
  - "Is it possible to solve a problem with such-and-such resolution in a timely manner?"
  - "If I use more cores I will have the results more quickly, but with this resolution will my run be in the efficient strong-scaling regime, an intermediate one, or in the very inefficient one dominated by I/O and initialization instead of computing?"
@@ -22,10 +23,9 @@ Configurations::
 
 Conclusion
 -------------------
- - Intel + MPT gives best performance.
-
- These were Yellowstone observations :
-
+ - Intel 18.0.1 (latest) + MPT 2.18 gives the best performance.
+ 
+`Yellowstone<https://www2.cisl.ucar.edu/software/community-models/wrf-scaling-and-timing>`
  - As you can see, there are three regimes:
 
      - large number of grid points per core - Total grid points / core > 104 (small core count)
@@ -41,31 +41,39 @@ We do not recommend running WRF on extremely large core counts, because in this 
 Hybrid Runs Summary
 -------------------
 
-- In hybrid runs, we use both Shared memory and Distributed Memory for our simulations. Hybrid runs perform better than pure MPI runs if there is good load balancing across cores.
-- The below run shows 4 or 6 MPI tasks works best.( Below Runs are for 72 CPU's total)
-- There are two options two compile WRF when using Intel:
-  1. Option 15/16 : This is a normal option without any opt flags
-  2. Option 66/67. This uses several opt flags, a summary of which is listed below.
+- Hybrid runs perform better than pure MPI runs if there is good load balancing across cores.
+- The below run shows 4 or 6 MPI tasks works best.( Total 72 CPU's were used)
+- There are two options available to user to compile WRF with Intel (./configure):
+  1. Option 15/16 : This is a normal option without any optimization flags
+  2. Option 66/67. This uses several optimization flags, a summary of which is listed below.
 
-From the second graph below, we find that option 67 gives better simulation speed.
+**Configuration**
 
+	Run : WRFV4 Katrina 3km
+	NCPUS : 72
+	
 - **WRFV4 Intel 18.0.1 MPT 2.18 OpenMP/MPI Speedup Comparision.** ::
 
-  	Note : 36mpi means no openmp threads. 66 and 15 are the compilation options available for Intel.
+  	Note : 36mpi means no openmp threads.
+	As we can see, hybrid mpi with 4 MPI tasks and 9 OpenMP threads performs the best. From the last two bars, Option 66 gives better speedup than option 15. 
 
 .. image:: ../../results/hybrid_mpi_speedup.svg
     :width: 400px
 
 - **WRFV4 Intel 18.0.1 MPT 2.18 OpenMP Comparisions.**
 
-.. image:: ../../results/intel18_openmp_67_speed.png
+.. image:: ../../results/intel18_openmp_67_speed.svg
     :width: 400px
 
 - **Option 67 gives slightly better simulation speed.**
 
-.. image:: ../../results/Intel17_16vs67.png
+.. image:: ../../results/Intel17_16vs67.svg
     :width: 400px
 
+- **Option 15 vs Option 66 MPI only comparision**
+
+.. image:: ../../results/15_vs_66.svg
+    :width: 400px
 
 
 Compiler Option 67 flags
@@ -84,27 +92,25 @@ Compiler Option 67 flags
 
 **no-common** : Option -fno-common tells the compiler to treat common symbols as global definitions. When using this option, you can only have a common variable declared in one module; otherwise, a link time error will occur for multiple defined symbols.
 
-**CORE-AVX2** :  expansion of most vector integer SSE and AVX instructions to 256 bits. NASA : https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html <br>
+**CORE-AVX2** :  expansion of most vector integer SSE and AVX instructions to 256 bits. `NASA` <https://www.nas.nasa.gov/hecc/support/kb/haswell-processors_492.html>
 
 
 HyperThreading Results
 ==========================================
 **Configuration** : WRFV4. Katrina 3km 800x900
 
-Hyperthreading on cheyenne lowers the model performance. Below are a few comparisions with hyperthreading.
+Hyperthreading on cheyenne lowers the model performance. Below are a few comparisions with hyperthreading. Some examples of PBS scripts can be found here : [Cheyenne](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/hyper-threading-cheyenne)
 
-- **Recommendation**::
-
-  	In-case your run requires hyperthreading, it is recommended to specify ncpus = 36 and mpiprocs = 72
-		For e.g in PBS script : #PBS -l select=2:ncpus=36:mpiprocs=72
-		instead of :            #PBS -l select=2:ncpus=72:mpiprocs=72
-	
-  	Observation :  
-		wrf_stats output shows different result based on how the cores & mpi tasks were specified in the script. 
-	 	Eg :
-		1. #PBS -l select=2:ncpus=72:mpiprocs=72 :  XxY = 12x12	& CPU's = 144
-		2. #PBS -l select=2:ncpus=36:mpiprocs=72 :  XxY = 16x18 & CPU's = 288
-		XxY & CPUs are columns taken from wrf_stats output by running the following command : ./wrf_stats -t -H -d .*
+.. Hint:: 
+		In-case your run requires hyperthreading, it is recommended to specify ncpus = 36 and mpiprocs = 72
+			For e.g in PBS script 
+				- #PBS -l select=2:ncpus=36:mpiprocs=72	
+  		Observation :  
+			wrf_stats output shows different result based on how the cores & mpi tasks were specified in the script. 
+	 		Eg :
+			  	1. #PBS -l select=2:ncpus=72:mpiprocs=72 =>  XxY = 12x12	& CPU's = 144
+			  	2. #PBS -l select=2:ncpus=36:mpiprocs=72 =>  XxY = 16x18 & CPU's = 288
+		        Note: *XxY & CPUs are columns taken from wrf_stats output by running the following command : ./wrf_stats -t -H -d .*
 
 - **Following are speedup comparisions when specifying:** ::
 	
@@ -122,12 +128,13 @@ Hyperthreading on cheyenne lowers the model performance. Below are a few compari
 	
 - **Intel 18.0.1 + GNU 8.1.0.**
 
+.. Tip:: This is not an apples to apples comparision. But it still goes to show WRF's performance across compilers. Our above scaling results suggests that GNU with MPT would do better over GNU with MVAPICH
+ 
 .. image:: ../../results/new_htt_mvapich_mpt.svg
     :width: 400px
 
-Note : Although, this would not be an apples to apples comparision, mvapich seems to do better on higher node counts.
 	
-- Following are speedup comparisions when specifying: ::
+- **Following are speedup comparisions when specifying:** ::
 
 	PBS -l select=2:ncpus=36:mpiprocs=72
 
